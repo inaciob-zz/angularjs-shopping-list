@@ -1,0 +1,40 @@
+/* Start utilities */
+.pad-top-10 {
+	padding-top: 10px;
+}
+
+.pad-top-16 {
+	padding-top: 16px;
+}
+
+.pad-bottom-16 {
+	padding-bottom: 16px;
+}
+/* End utilities */
+
+.shop-list-container {
+	background: #ccc;
+}
+
+.shop-list-heading {
+	font-size: 32px;
+}
+
+.items-container {
+	background: #fff;
+	list-style-type: none;
+	padding: 0;
+}
+
+.items-container li {
+	border-bottom: 1px solid #ddd;
+	padding: 8px 16px;
+}
+
+.items-container li:last-child {
+	border-bottom: none;
+}
+
+.remove {
+	cursor: pointer;
+}
