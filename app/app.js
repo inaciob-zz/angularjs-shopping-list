@@ -17,9 +17,10 @@
 					}, 
 					{
 						"itemName": "Cheese",
-						"itemDetails": "Aged Cheddar"
+						"itemDetails": "Mozzarella"
 					}];
 		vm.nextItem = null;
+		vm.nextItemDetails = null;
 		vm.errorText = "";
 		
 		vm.init = init;
@@ -37,7 +38,10 @@
 			}
 
 			if(vm.items.indexOf(vm.nextItem) == -1) {
-				vm.items.push(vm.nextItem);	
+				vm.items.push({
+					itemName: vm.nextItem,
+					itemDetails: vm.nextItemDetails	
+				});	
 			}
 			else {
 				vm.errorText = "The item is already in your shopping list.";
