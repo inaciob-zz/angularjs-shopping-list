@@ -11,23 +11,28 @@
 <body ng-controller="ShopListCtrl as shopListCtrl">
 	<div class="shop-list-container container">
 		<header class="pad-top-16 pad-bottom-16">
-			<h1 class="shop-list-heading text-center">Simple Shopping List</h1>
+			<h1 class="shop-list-heading text-center">Shopping List</h1>
 		</header>
-		<ul class="items-container col-6 offset-sm-3">
+		<p ng-if="!shopListCtrl.items || (shopListCtrl.items.length === 0)" class="text-center">You do not currently have any shopping list items, fill out the short form below to start adding items to your list!</p>
+		<ul ng-if="shopListCtrl.items.length > 0" class="items-container col-sm-12 col-md-6 offset-sm-3">
 	        <li ng-repeat="item in shopListCtrl.items track by $index" class="col-12 pad-top-16 pad-bottom-16">
 	        	<span class="col-12 col-md-4 pl-0">{{ item.itemName }}</span> 
-	        	<!-- TODO: Update form to include optional item details -->
-	        	<!-- <span class="text-muted col-12 col-md-4 pl-0">{{ item.itemDetails }}</span> -->
+	        	<div class="text-muted col-12 col-md-4 pl-0">{{ item.itemDetails }}</div>
 	        	<span ng-click="shopListCtrl.removeItem($index)" class="remove float-right">&times;</span>
 	        </li>
 	    </ul>
 
-	    <form class="pad-top-16 pad-bottom-16 col-6 offset-sm-3">
+	    <form class="pad-top-16 pad-bottom-16 col-sm-12 col-md-6 offset-sm-3">
 	    	<div class="form-row">
-	    		<div class="col-10">
+	    		<div class="col-sm-12 col-md-10">
 	    			<input type="text" class="form-control" ng-model="shopListCtrl.nextItem" placeholder="Add shopping list items here">
 	    		</div>
-	    		<div class="col-2">
+	    		<div class="col-sm-12 col-md-10 pt-2">
+	    			<input type="text" class="form-control" ng-model="shopListCtrl.nextItemDetails" placeholder="Item details (optional)">
+	    		</div>
+	    	</div>
+	    	<div class="form-row">
+	    		<div class="col-6 pt-2">
 	    			<button class="btn btn-success" ng-click="shopListCtrl.addItem()">Add Item</button>
 	    		</div>
 	    	</div>
