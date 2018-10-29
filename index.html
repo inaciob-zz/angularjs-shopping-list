@@ -18,28 +18,36 @@
 	        <li ng-repeat="item in shopListCtrl.items track by $index" class="col-12 pad-top-16 pad-bottom-16">
 	        	<span class="col-12 col-md-4 pl-0">{{ item.itemName }}</span> 
 	        	<div class="text-muted col-12 col-md-4 pl-0">{{ item.itemDetails }}</div>
-	        	<span ng-click="shopListCtrl.removeItem($index)" class="remove float-right">&times;</span>
+	        	<span ng-click="shopListCtrl.removeItem(item)" class="remove float-right">&times;</span>
 	        </li>
 	    </ul>
 
-	    <form class="pad-top-16 pad-bottom-16 col-sm-12 col-md-6 offset-sm-3">
+	    <form role="form" name="shopListForm" class="pad-top-16 pad-bottom-16 col-sm-12 col-md-6 offset-sm-3" ng-submit="shopListCtrl.addItem(newItem)" novalidate>
 	    	<div class="form-row">
 	    		<div class="col-sm-12 col-md-10">
-	    			<input type="text" class="form-control" ng-model="shopListCtrl.nextItem" placeholder="Add shopping list items here">
+	    			<input type="text" name="newItemName" class="form-control" ng-model="newItem.itemName" placeholder="Add shopping list items here" ng-required="true">
 	    		</div>
 	    		<div class="col-sm-12 col-md-10 pt-2">
-	    			<input type="text" class="form-control" ng-model="shopListCtrl.nextItemDetails" placeholder="Item details (optional)">
+	    			<input type="text" class="form-control" ng-model="newItem.itemDetails" placeholder="Item details (optional)">
 	    		</div>
 	    	</div>
+
 	    	<div class="form-row">
 	    		<div class="col-6 pt-2">
-	    			<button class="btn btn-success" ng-click="shopListCtrl.addItem()">Add Item</button>
+	    			<button type="submit" class="btn btn-success">Add Item</button>
 	    		</div>
 	    	</div>
-	    	<p class="text-danger pad-top-10">{{ shopListCtrl.errorText }}</p>
 	    </form>
 	</div>
 
+	<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase-firestore.js"></script>
+	<script src="app/config.json"></script>
+	<script>
+		// Initialize Firebase
+	  	firebase.initializeApp(config);
+	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
 	<script src="app/app.js"></script>
 </body>
