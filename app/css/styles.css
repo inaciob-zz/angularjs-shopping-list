@@ -1,19 +1,20 @@
 /* Start utilities */
-.pad-top-10 {
+/* NOTE: This naming convention is being used to match Bootstrap v4 docs & facilitate easy migration to Sass in the future */
+.pt-10 {
 	padding-top: 10px;
 }
 
-.pad-top-16 {
+.pt-16 {
 	padding-top: 16px;
 }
 
-.pad-bottom-16 {
+.pb-16 {
 	padding-bottom: 16px;
 }
 /* End utilities */
 
-.shop-list-container {
-	background: #ccc;
+.outer-container {
+	background: #dcdcdc;
 }
 
 .shop-list-heading {
@@ -37,8 +38,9 @@
 
 .remove {
 	cursor: pointer;
+	font-size: 18px;
 	position: absolute;
 	right: 20px;
 	top: 50%;
 	transform: translateY(-50%);
-}
+}	
