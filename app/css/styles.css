@@ -1,5 +1,9 @@
 /* Start utilities */
 /* NOTE: This naming convention is being used to match Bootstrap v4 docs & facilitate easy migration to Sass in the future */
+.ml-15 {
+	margin-left: 15px;
+}
+
 .pt-10 {
 	padding-top: 10px;
 }
@@ -21,14 +25,18 @@
 	font-size: 32px;
 }
 
+.align-input {
+	left: -8px;
+	position: relative;
+}
+
 .items-container {
-	background: #fff;
 	list-style-type: none;
-	padding: 0;
 }
 
 .items-container li {
-	border-bottom: 1px solid #ddd;
+	background: #fff;
+	border: 1px solid #ddd;
 	padding: 8px 16px;
 }
 
@@ -43,4 +51,13 @@
 	right: 20px;
 	top: 50%;
 	transform: translateY(-50%);
-}	
+}
+
+/* Start media queries */
+@media screen and (min-width: 767px) {
+	.align-md-input {
+		left: -8px;
+		position: relative;
+	}
+}
+/* End media queries */
