@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('shoppingList', [])
-	.controller('ShopListCtrl', function($scope, $timeout) {
+	.controller('ShopListCtrl', function($scope) {
 		var vm = this;
 
 		// Set variables
@@ -15,7 +15,7 @@
 		vm.items = [];
 		
 		vm.init = init;
-		vm.displayChanges = displayChanges;
+		vm.getList = getList;
 		vm.resetItemForm = resetItemForm;
 		vm.setFormInvalid = setFormInvalid;
 		vm.addItem = addItem;
@@ -23,12 +23,19 @@
 
 		function init() {
 			// Read in data from firebase
+			getList();
+		}
+		init();
+
+		function getList() {
 			var collections = ["items"];
 
 			angular.forEach(collections, function(key) {
 				database.collection(key).get().then((querySnapshot) => {
 					querySnapshot.forEach((doc) => {
-        				vm[key].push(doc.data());
+						if(!angular.toJson(vm[key]).includes(angular.toJson(doc.data()))) {
+        					vm[key].push(doc.data());
+        				}
     				});
 					
 					// This exists due to changes from firebase occuring outside of angular which are not automatically updated in view
@@ -36,26 +43,6 @@
 					$scope.$apply();
 				});
 			});
-		}
-		init();
-
-		function displayChanges() {
-			$timeout(function(){ 
-		    	var collections = ["items"];
-
-				angular.forEach(collections, function(key) {
-					database.collection(key).get().then((querySnapshot) => {
-						querySnapshot.forEach((doc) => {
-							// TODO: Make sure no duplicates exist before inserting next document
-							if(!angular.toJson(vm[key]).includes(angular.toJson(doc.data()))) {
-								vm[key].push(doc.data());
-							}
-	    				});
-
-	    				$scope.$apply();
-					});
-				});
-			}, 0);
 		}
 
 		// ******************** //
@@ -86,7 +73,7 @@
 					})
 					.then(function() {
 					    console.log("Document successfully written!");
-					    displayChanges();
+					    getList();
 					})
 					.catch(function(error) {
 					    console.error("Error writing document: ", error);
@@ -105,11 +92,12 @@
 
 		function removeItem(item) {
 			let docToDeleteId = item.itemName;
+			let domId = item.itemName.toLowerCase().replace(/\s+/g, '-');
 
 			database.collection("items").doc("" + docToDeleteId + "").delete().then(function() {
 			    console.log("Document successfully deleted!");
-			    // TODO: Adjust this for immediate visual feedback
-			    displayChanges();
+			    var element = document.getElementById(domId);
+			    element.parentNode.removeChild(element);
 			}).catch(function(error) {
 			    console.error("Error removing document: ", error);
 			});
