@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('shoppingList', [])
-	.controller('ShopListCtrl', function($scope) {
+	.controller('ShopListCtrl', function($scope, orderByFilter) {
 		var vm = this;
 
 		// Set variables
@@ -35,6 +35,8 @@
 					querySnapshot.forEach((doc) => {
 						if(!angular.toJson(vm[key]).includes(angular.toJson(doc.data()))) {
         					vm[key].push(doc.data());
+        					// This exists so that alphabetic ordering is preserved while items are being added to the list
+        					vm[key] = orderByFilter(vm[key], 'itemName');
         				}
     				});
 					
@@ -98,6 +100,14 @@
 			    console.log("Document successfully deleted!");
 			    var element = document.getElementById(domId);
 			    element.parentNode.removeChild(element);
+
+			    // Make sure vm.items accurately reflects data in Firebase collection after delete
+			    var listLength = vm['items'].length;
+			    for(var i=0; i < listLength; i++) {
+			    	if(vm['items'][i]['itemName'] == docToDeleteId) {
+			    		vm['items'].splice(i, 1);
+			    	}
+			    }
 			}).catch(function(error) {
 			    console.error("Error removing document: ", error);
 			});
