@@ -13,12 +13,19 @@
 
   		vm.formInvalid = false;
 		vm.items = [];
+		vm.isEditing = false;
+		vm.editedItem = null;
 		
 		vm.init = init;
 		vm.getList = getList;
 		vm.resetItemForm = resetItemForm;
 		vm.setFormInvalid = setFormInvalid;
 		vm.addItem = addItem;
+		vm.startEditing = startEditing;
+		vm.cancelEditing = cancelEditing;
+		vm.setEditing = setEditing;
+		vm.setEditedItem = setEditedItem;
+		vm.updateItem = updateItem;
 		vm.removeItem = removeItem;
 
 		function init() {
@@ -64,7 +71,7 @@
 
 		function addItem(item) {
 			if(!item) {
-				return false;
+				setFormInvalid();
 			}
 
 			if(!angular.isUndefined(item)) {
@@ -85,11 +92,45 @@
 					setFormInvalid();
 				}
 			}
-			else {
-				setFormInvalid();
-			}
 
 			resetItemForm();
+		}
+
+		function startEditing() {
+			vm.isEditing = true;
+		}
+
+		function cancelEditing() {
+			vm.isEditing = false;
+		}
+
+		function setEditing() {
+			return vm.isEditing;
+		}
+
+		function setEditedItem(item) {
+			vm.editedItem = angular.copy(item);
+		}
+
+		function updateItem(item) {
+			let docId = item.itemName;
+			var docReference = database.collection("items").doc("" + docId + "");
+
+			return docReference.update({
+			    itemName: item.itemName,
+				itemDetails: (item.itemDetails || '')
+			})
+			.then(function() {
+			    console.log("Document successfully updated!");
+			    getList();
+			})
+			.catch(function(error) {
+			    // The document probably doesn't exist.
+			    console.error("Error updating document: ", error);
+			});
+
+			vm.editedItem = null;
+			vm.isEditing = false;
 		}
 
 		function removeItem(item) {
